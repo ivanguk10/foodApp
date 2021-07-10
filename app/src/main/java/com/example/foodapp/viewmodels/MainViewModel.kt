@@ -4,10 +4,9 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.foodapp.data.Repository
-import com.example.foodapp.data.database.RecipeEntity
+import com.example.foodapp.data.database.entities.RecipeEntity
 import com.example.foodapp.models.FoodRecipe
 import com.example.foodapp.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -22,6 +22,8 @@ class Constants {
         const val TABLE_NAME = "recipe_table"
         const val DATABASE_NAME = "recipes_database"
 
+        const val FAVORITE_RECIPES_TABLE = "favorite_recipes_table"
+
 //
         const val DEFAULT_MEAL_TYPE = "main course"
         const val DEFAULT_DIET_TYPE = "ketogenic"

@@ -1,6 +1,6 @@
 package com.example.foodapp.data
 
-import com.example.foodapp.data.database.RecipeEntity
+import com.example.foodapp.data.database.entities.RecipeEntity
 import com.example.foodapp.data.database.RecipesDao
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
