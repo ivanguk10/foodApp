@@ -13,6 +13,7 @@ import com.example.foodapp.adapters.PagerAdapter
 import com.example.foodapp.ui.fragments.ingredients.IngredientsFragment
 import com.example.foodapp.ui.fragments.instructions.InstructionsFragment
 import com.example.foodapp.ui.fragments.overview.OverviewFragment
+import com.example.foodapp.util.Constants.Companion.RECIPES_RESULT_KEY
 import com.google.android.material.tabs.TabLayout
 
 class DetailsActivity : AppCompatActivity() {
@@ -39,7 +40,7 @@ class DetailsActivity : AppCompatActivity() {
         titles.add("Instructions")
 
         val resultBundle = Bundle()
-        resultBundle.putParcelable("recipesBundle", args.result)
+        resultBundle.putParcelable(RECIPES_RESULT_KEY, args.result)
 
         val adapter = PagerAdapter(
             resultBundle,

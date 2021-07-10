@@ -11,6 +11,8 @@ import coil.load
 import com.example.foodapp.R
 import com.example.foodapp.databinding.FragmentOverviewBinding
 import com.example.foodapp.models.Result
+import com.example.foodapp.util.Constants.Companion.RECIPES_RESULT_KEY
+import org.jsoup.Jsoup
 
 
 class OverviewFragment : Fragment() {
@@ -26,13 +28,16 @@ class OverviewFragment : Fragment() {
         binding.lifecycleOwner = this
 
         val args = arguments
-        val bundle: Result? = args?.getParcelable("recipesBundle")
+        val bundle: Result? = args?.getParcelable(RECIPES_RESULT_KEY)
 
         binding.mainImageView.load(bundle?.image)
         binding.titleTextView.text = bundle?.title
         binding.timeTextView.text = bundle?.readyInMinutes.toString()
         binding.likesTextView.text = bundle?.aggregateLikes.toString()
-        binding.summaryTextView.text = bundle?.summary
+        bundle?.summary.let {
+            val summary = Jsoup.parse(it).text()
+            binding.summaryTextView.text = summary
+        }
 
         if (bundle?.vegetarian == true) {
             binding.vegetarianImageView.setColorFilter(ContextCompat.getColor(requireContext(),R.color.green))
