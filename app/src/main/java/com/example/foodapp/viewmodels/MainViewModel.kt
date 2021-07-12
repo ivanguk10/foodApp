@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import androidx.lifecycle.*
 import com.example.foodapp.data.Repository
+import com.example.foodapp.data.database.entities.FavoriteEntity
 import com.example.foodapp.data.database.entities.RecipeEntity
 import com.example.foodapp.models.FoodRecipe
 import com.example.foodapp.util.NetworkResult
@@ -25,10 +26,29 @@ class MainViewModel @Inject constructor (
     /** RoomDatabase*/
 
     val readRecipes: LiveData<List<RecipeEntity>> = repository.local.readRecipes().asLiveData()
+    val readFavoriteRecipes: LiveData<List<FavoriteEntity>> = repository.local.readFavoriteRecipes().asLiveData()
 
     private fun insertRecipes(recipeEntity: RecipeEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.local.insertRecipes(recipeEntity)
+        }
+    }
+
+    private fun insertFavoriteRecipes(favoriteEntity: FavoriteEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.insertFavoriteRecipe(favoriteEntity)
+        }
+    }
+
+    private fun deleteFavoriteRecipe(favoriteEntity: FavoriteEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.deleteFavoriteRecipe(favoriteEntity)
+        }
+    }
+
+    private fun deleteAllFavoriteRecipes() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.deleteAllFavoriteRecipes()
         }
     }
 
