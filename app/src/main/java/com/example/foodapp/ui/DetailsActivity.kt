@@ -2,7 +2,10 @@ package com.example.foodapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -10,19 +13,30 @@ import androidx.navigation.navArgs
 import androidx.viewpager.widget.ViewPager
 import com.example.foodapp.R
 import com.example.foodapp.adapters.PagerAdapter
+import com.example.foodapp.data.database.entities.FavoriteEntity
+import com.example.foodapp.databinding.ActivityDetailsBinding
 import com.example.foodapp.ui.fragments.ingredients.IngredientsFragment
 import com.example.foodapp.ui.fragments.instructions.InstructionsFragment
 import com.example.foodapp.ui.fragments.overview.OverviewFragment
 import com.example.foodapp.util.Constants.Companion.RECIPES_RESULT_KEY
+import com.example.foodapp.viewmodels.MainViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
+import java.io.IOException
 
+@AndroidEntryPoint
 class DetailsActivity : AppCompatActivity() {
 
     private val args by navArgs<DetailsActivityArgs>()
+    private val mainViewModel: MainViewModel by viewModels()
+    private lateinit var binding: ActivityDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details)
+        //setContentView(R.layout.activity_details)
+        binding = ActivityDetailsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -55,10 +69,59 @@ class DetailsActivity : AppCompatActivity() {
         tabLayout.setupWithViewPager(viewPager)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.favorite_recipe_menu, menu)
+        val menuItem = menu?.findItem(R.id.favorite)
+        checkSavedRecipes(menuItem!!)
+        return true
+    }
+
+    private fun checkSavedRecipes(menuItem: MenuItem) {
+        mainViewModel.readFavoriteRecipes.observe(this, { favoriteEntity ->
+            try {
+                for (savedRecipe in favoriteEntity) {
+                    if (savedRecipe.result.id == args.result.id) {
+                        changeMenuItemColor(menuItem, R.color.yellow)
+                    }
+                }
+            }
+            catch (e: Exception) {
+                Log.d("Favorite", e.message.toString())
+            }
+        })
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if(item.itemId == android.R.id.home) {
             finish()
         }
+        if(item.itemId == R.id.favorite) {
+            addToFavorite(item)
+        }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun addToFavorite(item: MenuItem) {
+        val favoriteEntity = FavoriteEntity(
+            0,
+            args.result
+        )
+        mainViewModel.insertFavoriteRecipe(favoriteEntity)
+        changeMenuItemColor(item, R.color.yellow)
+        showSnackBar("saved to Favorites!")
+    }
+
+    private fun changeMenuItemColor(item: MenuItem, color: Int) {
+        item.icon.setTint(ContextCompat.getColor(this, color))
+    }
+
+    private fun showSnackBar(message: String) {
+        Snackbar.make(
+            binding.detailsLayout,
+            "${args.result.title} $message",
+            Snackbar.LENGTH_LONG
+        )
+            .setAction("Okay"){}
+            .show()
     }
 }
