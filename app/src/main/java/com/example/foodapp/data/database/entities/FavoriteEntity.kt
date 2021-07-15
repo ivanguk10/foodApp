@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import com.example.foodapp.models.Result
 import com.example.foodapp.util.Constants.Companion.FAVORITE_RECIPES_TABLE
 
+
 @Entity(tableName = FAVORITE_RECIPES_TABLE)
 data class FavoriteEntity(
 
@@ -12,6 +13,7 @@ data class FavoriteEntity(
     var id: Int,
 
     var result: Result
+
 ) {
 
 }

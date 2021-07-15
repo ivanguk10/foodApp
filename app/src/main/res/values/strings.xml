@@ -46,4 +46,5 @@
     <string name="healthy">Healthy</string>
     <string name="cheap">Cheap</string>
     <string name="favorite_recipes">Favorite</string>
+    <string name="no_favorites_recipes">No Favorites Recipes</string>
 </resources>
