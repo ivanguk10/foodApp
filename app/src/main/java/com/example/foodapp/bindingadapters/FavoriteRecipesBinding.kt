@@ -22,14 +22,5 @@ class FavoriteRecipesBinding {
                 view.visibility = View.INVISIBLE
             }
         }
-
-        //@BindingAdapter("navigateFromFavoriteToDetails")
-        //@JvmStatic
-        //fun navigateFromFavoriteToDetails(view: ConstraintLayout, favoriteEntity: FavoriteEntity) {
-        //    view.setOnClickListener {
-        //        view.findNavController()
-        //    }
-
-        //}
     }
 }
