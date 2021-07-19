@@ -1,4 +1,4 @@
-package com.example.foodapp.ui.fragments.joke
+package com.example.foodapp.ui.fragments.trivia
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.foodapp.R
 
-class FoodJokeFragment : Fragment() {
+class FoodTriviaFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_food_joke, container, false)
+        return inflater.inflate(R.layout.fragment_food_trivia, container, false)
     }
 
 

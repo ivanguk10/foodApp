@@ -23,6 +23,7 @@ class Constants {
         const val DATABASE_NAME = "recipes_database"
 
         const val FAVORITE_RECIPES_TABLE = "favorite_recipes_table"
+        const val FOOD_TRIVIA_TABLE = "food_trivia_table"
 
 //
         const val DEFAULT_MEAL_TYPE = "main course"

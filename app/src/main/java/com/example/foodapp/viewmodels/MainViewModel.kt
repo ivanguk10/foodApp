@@ -7,8 +7,10 @@ import android.net.NetworkCapabilities
 import androidx.lifecycle.*
 import com.example.foodapp.data.Repository
 import com.example.foodapp.data.database.entities.FavoriteEntity
+import com.example.foodapp.data.database.entities.FoodTriviaEntity
 import com.example.foodapp.data.database.entities.RecipeEntity
 import com.example.foodapp.models.FoodRecipe
+import com.example.foodapp.models.FoodTrivia
 import com.example.foodapp.util.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +29,7 @@ class MainViewModel @Inject constructor (
 
     val readRecipes: LiveData<List<RecipeEntity>> = repository.local.readRecipes().asLiveData()
     val readFavoriteRecipes: LiveData<List<FavoriteEntity>> = repository.local.readFavoriteRecipes().asLiveData()
+    val readFoodTrivia: LiveData<List<FoodTriviaEntity>> = repository.local.readFoodTrivia().asLiveData()
 
     private fun insertRecipes(recipeEntity: RecipeEntity) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -58,10 +61,17 @@ class MainViewModel @Inject constructor (
         }
     }
 
+    fun insertFoodTrivia(foodTriviaEntity: FoodTriviaEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.local.insertFoodTrivia(foodTriviaEntity)
+        }
+    }
+
 
     /** RETROFIT */
     var recipesResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
     var searchedRecipesResponse: MutableLiveData<NetworkResult<FoodRecipe>> = MutableLiveData()
+    var triviaResponse: MutableLiveData<NetworkResult<FoodTrivia>> = MutableLiveData()
 
     fun getRecipe(queries: Map<String, String>) = viewModelScope.launch {
         getRecipesSafeCall(queries)
@@ -71,6 +81,9 @@ class MainViewModel @Inject constructor (
         searchRecipesSafeCall(searchQuery)
     }
 
+    fun getTrivia(apiKey: String) = viewModelScope.launch {
+        getTriviaSafeCall(apiKey)
+    }
 
     private suspend fun getRecipesSafeCall(queries: Map<String, String>) {
         recipesResponse.value = NetworkResult.Loading()
@@ -105,10 +118,36 @@ class MainViewModel @Inject constructor (
         }
     }
 
+    private suspend fun getTriviaSafeCall(apiKey: String) {
+        triviaResponse.value = NetworkResult.Loading()
+        if (hasInternetConnection()) {
+            try {
+                val response = repository.remote.getTrivia(apiKey)
+                triviaResponse.value = handleFoodTriviaResponse(response)
+
+                val foodTrivia = triviaResponse.value!!.data
+                if (foodTrivia != null) {
+                    offlineCacheFoodTrivia(foodTrivia)
+                }
+            }
+            catch (e: Exception) {
+                triviaResponse.value = NetworkResult.Error("Food Trivia not found")
+            }
+        }
+        else {
+            triviaResponse.value = NetworkResult.Error("No Internet Connection.")
+        }
+    }
+
 
     private fun offlineCacheRecipes(foodRecipe: FoodRecipe) {
         val recipesEntity = RecipeEntity(foodRecipe)
         insertRecipes(recipesEntity)
+    }
+
+    private fun offlineCacheFoodTrivia(foodTrivia: FoodTrivia) {
+        val foodTriviaEntity = FoodTriviaEntity(foodTrivia)
+        insertFoodTrivia(foodTriviaEntity)
     }
 
     private fun handleFoodRecipesResponse(response: Response<FoodRecipe>): NetworkResult<FoodRecipe> {
@@ -128,6 +167,24 @@ class MainViewModel @Inject constructor (
             }
             else -> {
                 return NetworkResult.Error(response.message())
+            }
+        }
+    }
+
+    private fun handleFoodTriviaResponse(response: Response<FoodTrivia>): NetworkResult<FoodTrivia> {
+        return when {
+            response.message().toString().contains("timeout") -> {
+                NetworkResult.Error("Timeout")
+            }
+            response.code() == 402 -> {
+                NetworkResult.Error("API Key Limited.")
+            }
+            response.isSuccessful -> {
+                val foodTrivia = response.body()
+                NetworkResult.Success(foodTrivia!!)
+            }
+            else -> {
+                NetworkResult.Error(response.message())
             }
         }
     }

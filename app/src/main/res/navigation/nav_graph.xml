@@ -32,10 +32,10 @@
             app:destination="@id/detailsActivity" />
     </fragment>
     <fragment
-        android:id="@+id/foodJokeFragment"
-        android:name="com.example.foodapp.ui.fragments.joke.FoodJokeFragment"
-        android:label="Food Joke"
-        tools:layout="@layout/fragment_food_joke" />
+        android:id="@+id/foodTriviaFragment"
+        android:name="com.example.foodapp.ui.fragments.trivia.FoodTriviaFragment"
+        android:label="Food Trivia"
+        tools:layout="@layout/fragment_food_trivia" />
     <dialog
         android:id="@+id/recipesBottomSheetFragment"
         android:name="com.example.foodapp.ui.fragments.recipes.RecipesBottomSheetFragment"

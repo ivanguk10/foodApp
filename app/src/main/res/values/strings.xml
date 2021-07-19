@@ -49,4 +49,6 @@
     <string name="no_favorites_recipes">No Favorites Recipes</string>
     <string name="delete">Delete</string>
     <string name="delete_all">Delete All</string>
+    <string name="food_trivia">Food Trivia</string>
+    <string name="trivia">Trivia</string>
 </resources>

@@ -3,6 +3,7 @@ package com.example.foodapp.data
 import com.example.foodapp.data.database.entities.RecipeEntity
 import com.example.foodapp.data.database.RecipesDao
 import com.example.foodapp.data.database.entities.FavoriteEntity
+import com.example.foodapp.data.database.entities.FoodTriviaEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -36,4 +37,13 @@ class LocalDataSource @Inject constructor(
     suspend fun insertAllFavoriteRecipes(listOfFavoriteEntity: List<FavoriteEntity>) {
         recipesDao.insertAllFavoriteRecipes(listOfFavoriteEntity)
     }
+
+    suspend fun insertFoodTrivia(foodTriviaEntity: FoodTriviaEntity) {
+        recipesDao.insertFoodTrivia(foodTriviaEntity)
+    }
+
+    fun readFoodTrivia(): Flow<List<FoodTriviaEntity>> {
+        return recipesDao.readFoodTrivia()
+    }
+
 }

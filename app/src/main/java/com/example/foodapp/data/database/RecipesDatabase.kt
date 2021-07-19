@@ -7,8 +7,8 @@ import com.example.foodapp.data.database.entities.FavoriteEntity
 import com.example.foodapp.data.database.entities.RecipeEntity
 
 @Database(
-    entities = [RecipeEntity::class, FavoriteEntity::class],
-    version = 1,
+    entities = [RecipeEntity::class, FavoriteEntity::class, ],
+    version = 2,
     exportSchema = false
 )
 

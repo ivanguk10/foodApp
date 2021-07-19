@@ -2,6 +2,7 @@ package com.example.foodapp.data.database
 
 import androidx.room.*
 import com.example.foodapp.data.database.entities.FavoriteEntity
+import com.example.foodapp.data.database.entities.FoodTriviaEntity
 import com.example.foodapp.data.database.entities.RecipeEntity
 import com.example.foodapp.models.Result
 import kotlinx.coroutines.flow.Flow
@@ -29,4 +30,10 @@ interface RecipesDao {
 
     @Insert
     suspend fun insertAllFavoriteRecipes(listOfFavoriteEntity: List<FavoriteEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFoodTrivia(foodTriviaEntity: FoodTriviaEntity)
+
+    @Query("SELECT * FROM food_trivia_table ORDER BY id ASC")
+    fun readFoodTrivia(): Flow<List<FoodTriviaEntity>>
 }
