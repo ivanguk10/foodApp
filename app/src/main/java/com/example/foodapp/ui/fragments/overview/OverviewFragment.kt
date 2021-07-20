@@ -25,7 +25,7 @@ class OverviewFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentOverviewBinding.inflate(layoutInflater, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         val args = arguments
         val bundle: Result? = args?.getParcelable(RECIPES_RESULT_KEY)

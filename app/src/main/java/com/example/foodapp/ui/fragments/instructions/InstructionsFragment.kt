@@ -23,7 +23,7 @@ class InstructionsFragment : Fragment() {
     ): View? {
 
         _binding = FragmentInstructionsBinding.inflate(layoutInflater, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         val args = arguments
         val bundle: Result? = args?.getParcelable(RECIPES_RESULT_KEY)

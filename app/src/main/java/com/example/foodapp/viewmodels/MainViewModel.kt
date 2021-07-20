@@ -61,7 +61,7 @@ class MainViewModel @Inject constructor (
         }
     }
 
-    fun insertFoodTrivia(foodTriviaEntity: FoodTriviaEntity) {
+    private fun insertFoodTrivia(foodTriviaEntity: FoodTriviaEntity) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.local.insertFoodTrivia(foodTriviaEntity)
         }

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.foodapp.data.database.RecipesDatabase
+import com.example.foodapp.data.database.RecipesDatabase.Companion.Migration1_2
 import com.example.foodapp.util.Constants.Companion.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
@@ -25,11 +26,11 @@ object DatabaseModule {
         context,
         RecipesDatabase::class.java,
         DATABASE_NAME
-    ).build()
+    )   .addMigrations(Migration1_2)
+        .build()
 
     @Singleton
     @Provides
     fun provideData(recipesDatabase: RecipesDatabase) = recipesDatabase.recipesDao()
-
 
 }
