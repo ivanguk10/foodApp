@@ -30,7 +30,7 @@ class IngredientsAdapter: RecyclerView.Adapter<IngredientsAdapter.MyViewHolder>(
             crossfade(600)
             error(R.drawable.ic_twotone_image_24)
         }
-        holder.binding.ingredientsName.text = ingredients[position].name.uppercase()
+        holder.binding.ingredientsName.text = ingredients[position].name?.uppercase()
         holder.binding.ingredientAmount.text = ingredients[position].amount.toString()
         holder.binding.ingredientUnit.text = ingredients[position].unit
         holder.binding.ingredientConsistency.text = ingredients[position].consistency
