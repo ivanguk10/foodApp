@@ -51,4 +51,5 @@
     <string name="delete_all">Delete All</string>
     <string name="food_trivia">Food Trivia</string>
     <string name="trivia">Trivia</string>
+    <string name="error">Error</string>
 </resources>

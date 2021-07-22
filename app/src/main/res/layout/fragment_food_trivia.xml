@@ -18,10 +18,12 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/foodJokeCardView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:visibility="visible"
+            android:visibility="invisible"
+            readApiResponseTrivia="@{mainViewModel.triviaResponse}"
+            readDatabaseTrivia="@{mainViewModel.readFoodTrivia}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,14 +33,15 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/foodTriviaTextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="16dp"
-                    android:text="la la lalallaalalal lalalal lalala lalalalalal"
+                    android:textSize="20sp"
+                    android:textColor="@color/darker"
                     android:fontFamily="@font/courgette"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -55,6 +58,7 @@
             android:layout_height="50dp"
             android:layout_marginBottom="32dp"
             android:visibility="invisible"
+            readApiResponseTrivia="@{mainViewModel.triviaResponse}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -67,6 +71,8 @@
             android:contentDescription="@string/search"
             android:src="@drawable/ic_sad"
             android:visibility="invisible"
+            readApiResponseTriviaError="@{mainViewModel.triviaResponse}"
+            readDatabaseTriviaError="@{mainViewModel.readFoodTrivia}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -78,12 +84,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0.5"
-            android:text="Error"
-            android:textSize="20sp"
+            android:text="@string/error"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:visibility="invisible"
+            android:layout_marginTop="8dp"
+            readApiResponseTriviaError="@{mainViewModel.triviaResponse}"
+            readDatabaseTriviaError="@{mainViewModel.readFoodTrivia}"
             app:layout_constraintEnd_toEndOf="@+id/foodJokeErrorImage"
-            app:layout_constraintHorizontal_bias="0.491"
             app:layout_constraintStart_toStartOf="@+id/foodJokeErrorImage"
             app:layout_constraintTop_toBottomOf="@+id/foodJokeErrorImage" />
 
