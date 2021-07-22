@@ -1,6 +1,8 @@
 package com.example.foodapp.adapters
 
+import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
@@ -76,7 +78,9 @@ class FavoriteRecipesAdapter(
                 applySelection(holder, currentRecipe)
                 true
             }else {
-                multiSelection = false
+                if (selectedRecipes.size == 0) {
+                    multiSelection = false
+                }
                 false
             }
         }
